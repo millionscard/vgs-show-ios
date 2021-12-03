@@ -139,10 +139,10 @@ extension VGSShow {
 		}
 
 		// Handle unrevealed keys.
-		handleUnrevealedContentPaths(unrevealedContentPaths, code, completion: block)
+		handleUnrevealedContentPaths(unrevealedContentPaths, json, code, completion: block)
 	}
 
-	private func handleUnrevealedContentPaths(_ unrevealedContentPaths: [String], _ code: Int, extraAnalyticsInfo: [String: Any] = [:], completion block: @escaping (VGSShowRequestResult) -> Void) {
+	private func handleUnrevealedContentPaths(_ unrevealedContentPaths: [String], _ json: VGSJSONData, _ code: Int, extraAnalyticsInfo: [String: Any] = [:], completion block: @escaping (VGSShowRequestResult) -> Void) {
 
 		if !unrevealedContentPaths.isEmpty {
 			let warningMessage = "Cannot reveal data for contentPaths:\n\(VGSShow.formatDecodingContentPaths(unrevealedContentPaths))\n"
@@ -153,7 +153,7 @@ extension VGSShow {
 		// Track success.
 		VGSAnalyticsClient.shared.trackFormEvent(self, type: .submit, status: .success, extraData: extraAnalyticsInfo)
 
-		block(.success(code))
+		block(.success(code, json))
 	}
 
 	/// Track error event.
